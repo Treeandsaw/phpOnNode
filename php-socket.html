@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8>
+<title></title>
+</head>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+var socket = io.connect();
+function notification(content)
+{
+	var x=document.getElementById("storage");
+	x.innerHTML += content + '<br>' ;
+    console.log(content);	
+}
+socket.on('notification', function(x) { notification(x); });	
+function callserver()
+{
+	var mycolor = document.getElementById("color").value;
+	socket.emit('interface', mycolor);
+}	
+</script>
+
+<body>
+<h1>HTML  interface to a native (PHP) program</h1>
+
+<fieldset><legend>Messages received from the native program</legend>
+	<div id="storage"></div>
+</fieldset>
+<fieldset><legend>Data to send</legend>
+<form name="form1" method="post" action="">
+ <select id="color">
+   <option>Blue</option>
+   <option>Yellow</option>
+   <option>Green</option>
+   <option>Purple</option>
+   <option>Red</option>   
+ </select> 
+ <input type="button"  value="Send color and get answer from PHP script" onClick="callserver()">
+</form>
+</fieldset>
+<p><i>By Scriptol.com</i></p>
+</body>
+</html>
